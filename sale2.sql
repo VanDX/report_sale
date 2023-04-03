@@ -1,5 +1,24 @@
 select * from sale
 
+------- create report show off total quantity and revenue by nombre and vendedor
+
+Create table Best_seller1
+(nombre nvarchar(255),vendedor nvarchar(255), total_quantity int, total_rev float)
+insert into Best_seller1
+Select
+ case when grouping(nombre)=1 then 'Grand Total' else nombre end ,
+ case when grouping(vendedor) =1 then 'all vendedor' else vendedor end,
+sum(cantidad) as total_quantity,
+sum(total) as total_rev from sale
+group by 
+ grouping sets  
+ (
+ (nombre,vendedor),
+   (nombre), 
+   ()
+ )
+ order by nombre
+
 ------Show off vendedor who is the best seller by cantidad sold
 Create table Best_seller
 (nombre nvarchar(255),vendedor nvarchar(255), total int)
